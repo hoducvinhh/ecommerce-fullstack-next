@@ -4,6 +4,7 @@ import { betterAuth } from 'better-auth';
 import { bearer } from 'better-auth/plugins';
 import { nextCookies } from 'better-auth/next-js';
 import { Pool } from 'pg';
+import { v7 as uuidv7 } from 'uuid';
 
 
 const pool = new Pool({
@@ -70,5 +71,11 @@ export const auth = betterAuth(
         secret: process.env.BETTER_AUTH_SECRET || '',
         baseURL: process.env.BETTER_AUTH_URL || 'http://localhost:3000',
         basePath: '/api/auth',
+
+        advanced: {
+            database: {
+                generateId: () => uuidv7(),
+            },
+        },
     }
 );
