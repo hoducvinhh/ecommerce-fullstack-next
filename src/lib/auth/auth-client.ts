@@ -13,7 +13,7 @@ function createConfiguredClient(baseURL: string) {
 
 type AuthClient = ReturnType<typeof createConfiguredClient>;
 
-let browerClient: AuthClient | null = null;
+let browserClient: AuthClient | null = null;
 
 let browserOrigin: string | null = null;
 
@@ -21,11 +21,11 @@ export function getAuthClient(): AuthClient {
     if (typeof window !== 'undefined') {
         const origin = window.location.origin;
 
-        if (!browerClient || browserOrigin != origin) {
-            browerClient = createConfiguredClient(origin);
+        if (!browserClient || browserOrigin != origin) {
+            browserClient = createConfiguredClient(origin);
             browserOrigin = origin;
         }
-        return browerClient;
+        return browserClient;
     }
     return createConfiguredClient(serverBaseUrl());
 }

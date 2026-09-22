@@ -1,6 +1,5 @@
 import 'server-only';
 import axios from 'axios';
-import { headers } from 'next/headers';
 
 function internalApiBaseUrl(): string {
     const raw = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080').trim();

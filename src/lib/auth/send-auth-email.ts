@@ -1,6 +1,5 @@
 import axios from "axios";
 import { internalApi, internalSecret } from "./internal-api";
-import { headers } from "next/headers";
 
 interface SendAuthEmailPayload {
     to: string;
