@@ -70,4 +70,15 @@ export const authService = {
         }
 
     },
+
+    resendVerificationEmail: async (email: string): Promise<void> => {
+        const res = await getAuthClient().sendVerificationEmail({ email });
+
+        if (res.error) {
+            const msg = res.error.message || 'Gửi email xác thực thất bại';
+            throw Object.assign(new Error(msg), {
+                response: { data: { message: msg } },
+            });
+        }
+    }
 };

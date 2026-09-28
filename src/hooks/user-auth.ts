@@ -4,13 +4,13 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-type AuthToastMessage = {
+type AuthToastMessages = {
     success?: string;
     error?: string;
 };
 
 export const useSignUp = (
-    message?: AuthToastMessage & {
+    message?: AuthToastMessages & {
         verifyEmail?: string
     },
 ) => {
@@ -56,6 +56,32 @@ export const useSignUp = (
                 typeof responseMessage === "string"
                     ? responseMessage
                     : responseMessage?.error ?? "Sign up failed",
+            );
+        },
+    });
+};
+
+export const useResendVerificationEmail = (messages?: AuthToastMessages) => {
+    return useMutation({
+        mutationFn: (email: string) => authService.resendVerificationEmail(email),
+
+        onSuccess: () => {
+            toast.success(
+                messages?.success ?? "Verification email sent! Please check your inbox.",
+            );
+        },
+
+        onError: (error: unknown) => {
+            const message = (
+                error as {
+                    response?: { data?: { message?: string } };
+                }
+            )?.response?.data?.message;
+
+            toast.error(
+                typeof message === "string"
+                    ? message
+                    : (messages?.error ?? "Failed to send verification email"),
             );
         },
     });
